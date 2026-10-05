@@ -31,13 +31,9 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(EmailAlreadyExistsException exception,
 			HttpServletRequest request) {
 
-		ErrorResponse errorResponse = ErrorResponse.builder()
-				.timestamp(LocalDateTime.now())
-				.status(HttpStatus.CONFLICT.value())
-				.error(HttpStatus.CONFLICT.getReasonPhrase())
-				.message(exception.getMessage())
-				.path(request.getRequestURI())
-				.build();
+		ErrorResponse errorResponse = ErrorResponse.builder().timestamp(LocalDateTime.now())
+				.status(HttpStatus.CONFLICT.value()).error(HttpStatus.CONFLICT.getReasonPhrase())
+				.message(exception.getMessage()).path(request.getRequestURI()).build();
 
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
 	}
@@ -54,6 +50,7 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 	}
 
+
 	// validation exception handler
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException exception,
@@ -62,14 +59,9 @@ public class GlobalExceptionHandler {
 		exception.getBindingResult().getFieldErrors()
 				.forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
-	    ErrorResponse response = ErrorResponse.builder()
-                .timestamp(LocalDateTime.now())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                .message("Validation failed")
-                .path(request.getRequestURI())
-                .errors(errors)
-                .build();
+		ErrorResponse response = ErrorResponse.builder().timestamp(LocalDateTime.now())
+				.status(HttpStatus.BAD_REQUEST.value()).error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+				.message("Validation failed").path(request.getRequestURI()).errors(errors).build();
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
