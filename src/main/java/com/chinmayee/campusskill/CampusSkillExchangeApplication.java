@@ -9,6 +9,7 @@ public class CampusSkillExchangeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CampusSkillExchangeApplication.class, args);
 		System.out.println("checking git author dislay");
+		System.out.println("checking git author dislay -1");
 	}
 
 }
